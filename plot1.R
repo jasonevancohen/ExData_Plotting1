@@ -1,0 +1,10 @@
+library(lubridate)
+powerdata <- read.csv2("household_power_consumption.txt")
+dates <- dmy(powerdata$Date)
+times <- hms(powerdata$Time)
+data <- apply(powerdata, 2, as.numeric)
+PD <- data.frame(dates, times, data[ , 3:9])
+feb <- PD[PD$dates >= "2007-02-01" & PD$dates <= "2007-02-28", ]
+png("plot1.png", width=480, height=480)
+hist(feb$Global_active_power, main = "Global Active Power", xlab = "Global Active Power (kilowatts)", ylab = "Frequency", col = "red")
+dev.off()
