@@ -1,0 +1,13 @@
+library(lubridate)
+powerdata <- read.csv2("household_power_consumption.txt")
+DateTime <- paste(powerdata$Date, powerdata$Time)
+DT <- dmy_hms(DateTime)
+data <- apply(powerdata, 2, as.numeric)
+PD <- data.frame(DT, data[ , 3:9])
+feb <- PD[PD$DT >= "2007-02-01" & PD$DT <= "2007-02-03", ]
+png("plot3.png", width=480, height=480)
+plot(feb$DT, feb$Sub_metering_1, type = "l", xlab = "", ylab = "Energy Sub Metering")
+lines(feb$DT, feb$Sub_metering_2, col = "red")
+lines(feb$DT, feb$Sub_metering_3, col = "blue")
+legend("topright", col = c("black", "red", "blue"), c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty=c(1,1), lwd=c(1,1))
+dev.off()
